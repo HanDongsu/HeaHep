@@ -17,17 +17,15 @@
   <!-- 회원가입 -->
   <insert id="joinMember" parameterType="HMember"
     useGeneratedKeys="true" keyProperty="memberNo" keyColumn="member_no">
-    insert into
-    members(member_name, member_email, member_tel, member_pwd, member_gender, rank_no)
+    insert into members(member_name, member_email, member_tel, member_pwd, member_gender, rank_no)
     values(#{memberName}, #{memberEmail}, #{memberTel}, password(#{memberPWD}), #{memberGender}, #{memberRank})
   </insert>
   <!-- 로그인 -->
   <select id="selectOneByEmailAndPassword" resultMap="memberMap"
     parameterType="map">
-    select MB_NO, PWD, EMAIL, MB_NICK, MB_NM
-    from
-    honey_membs
-    where EMAIL=#{email} and PWD=password(#{password})
+    select member_no
+    from members
+    where member_email=#{memberEmail} and member_pwd=password(#{memberPWD})
   </select>
   
 </mapper>
