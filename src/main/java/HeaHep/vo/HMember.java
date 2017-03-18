@@ -8,9 +8,9 @@ public class HMember {
   protected int memberNo;
   protected String memberName;
   protected String memberEmail;
-  protected int memberTel;
+  protected String memberTel;
   protected String memberPWD;
-  protected boolean memberGender;
+  protected String memberGender;
   protected String memberRank;
   protected int trainerNo;
   protected String trainerName;
@@ -36,10 +36,10 @@ public class HMember {
   public void setMemberEmail(String memberEmail) {
     this.memberEmail = memberEmail;
   }
-  public int getMemberTel() {
+  public String getMemberTel() {
     return memberTel;
   }
-  public void setMemberTel(int memberTel) {
+  public void setMemberTel(String memberTel) {
     this.memberTel = memberTel;
   }
   public String getMemberPWD() {
@@ -48,10 +48,10 @@ public class HMember {
   public void setMemberPWD(String memberPWD) {
     this.memberPWD = memberPWD;
   }
-  public boolean isMemberGender() {
+  public String isMemberGender() {
     return memberGender;
   }
-  public void setMemberGender(boolean memberGender) {
+  public void setMemberGender(String memberGender) {
     this.memberGender = memberGender;
   }
   public String getMemberRank() {

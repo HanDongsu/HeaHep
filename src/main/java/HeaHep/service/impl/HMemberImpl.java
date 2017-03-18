@@ -15,6 +15,10 @@ public class HMemberImpl implements HMemberService {
 	  hMemberDao.joinMember(hMember);
 	}
 	public void changeInfromation(HMember hMember) throws Exception{
-	  hMemberDao.changeInfo(hMember);
+	  hMemberDao.changeMemberInfo(hMember);
+	}
+	public HMember getUserInfo(int memberNo) throws Exception{
+		HMember memberInfo = hMemberDao.selectOneByMemberNo(memberNo);
+		return memberInfo;
 	}
 }

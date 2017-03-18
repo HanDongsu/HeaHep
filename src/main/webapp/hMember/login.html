@@ -2,41 +2,48 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
 <title>Insert title here</title>
 </head>
 <body>
 	<div id="signup">
+	
 		<form id="signUpForm" action="/" method="post">
 			<div class="top-row">
 				<div id="email-wrap" class="field-wrap">
-					<label>아이디<span class="req">*</span></label>
-					<input type="email" id="user_Email" required autocomplete="off"/>
+					<label>아이디</label>
+					<input type="email" id="member_Email" required autocomplete="off"/>
 				</div>
+				
+				<div id="password-Wrap" class="field-wrap">
+					<label>비밀번호</label>
+					<input type="password" id="member_PWD" required autocomplete="off" />
+				</div>
+
 				<div class="field-wrap">
-					<label>Name<span class="req">*</span></label>
-					<input type="text" id="name" required autocomplete="off" />
+					<label>이름</label>
+					<input type="text" id="member_Name" required autocomplete="off" />
 				</div>
-
+				
 				<div class="field-wrap">
-					<label> Nickname<span class="req">*</span>
-					</label> <input type="text" id="nickname" required autocomplete="off" />
+          <label>성별</label>
+<!--           <div id="member_Gender"><div id="male">남성</div><div id="female">여성</div></div> -->
+          <input type="radio" id="member_Gender" name="Gender" value="남성">남
+          <input type="radio" id="member_Gender" name="Gender" value="여성">여
+        </div>
+        
+				<div class="field-wrap">
+					<label>전화번호</label>
+					<input type="text" id="member_Tel" required autocomplete="off" />
 				</div>
+				
 			</div>
-
-
-
-			<div id="password-Wrap" class="field-wrap">
-				<label> Set A Password<span class="req">*</span>
-				</label> <input type="password" id="userPassword" required
-					autocomplete="off" />
-			</div>
-
-			<button type="button" id="submitMember" class="button button-block">Get
-				Started</button>
-
+			<button type="button" id="submitMember" class="button button-block">가입하기</button>
 		</form>
 
 	</div>
-
+	<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+	<script type='text/javascript' src="../common.js"></script>
+  <script type='text/javascript' src="../hMember/login.js"></script>
 </body>
 </html>
