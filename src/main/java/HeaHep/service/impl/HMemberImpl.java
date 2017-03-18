@@ -14,4 +14,7 @@ public class HMemberImpl implements HMemberService {
 	public void singUpMembers(HMember hMember) throws Exception {
 	  hMemberDao.joinMember(hMember);
 	}
+	public void changeInfromation(HMember hMember) throws Exception{
+	  hMemberDao.changeInfo(hMember);
+	}
 }

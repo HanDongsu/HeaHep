@@ -12,20 +12,27 @@
     <result column="member_pwd" property="memberPWD"/>
     <result column="member_gender" property="memberGender"/>
     <result column="rank_no" property="memberRank"/>
-    <result column="trainer_no" property="trainerName"/>
+    <result column="trainer_no" property="trainerNo"/>
+    <result column="join_date" property="joinedDate"/>
   </resultMap>
   <!-- 회원가입 -->
   <insert id="joinMember" parameterType="HMember"
     useGeneratedKeys="true" keyProperty="memberNo" keyColumn="member_no">
-    insert into members(member_name, member_email, member_tel, member_pwd, member_gender, rank_no)
-    values(#{memberName}, #{memberEmail}, #{memberTel}, password(#{memberPWD}), #{memberGender}, #{memberRank})
+    insert into members(member_name, member_email, member_tel, member_pwd, member_gender, rank_no, join_date)
+    values(#{memberName}, #{memberEmail}, #{memberTel}, password(#{memberPWD}), #{memberGender}, #{memberRank}, now())
   </insert>
   <!-- 로그인 -->
   <select id="selectOneByEmailAndPassword" resultMap="memberMap"
     parameterType="map">
-    select member_no
-    from members
-    where member_email=#{memberEmail} and member_pwd=password(#{memberPWD})
+    select mbs.member_no, mbs.rank_no, mrk.rank_name
+    from members mbs
+    left join ranks mrk on mrk.rank_no = mbs.rank_no
+    where mbs.member_email=#{memberEmail} and mbs.member_pwd=password(#{memberPWD})
   </select>
+  <!-- 정보수정 -->
+  <update id="changeMemberInfo" parameterType="HMember">
+    update members set member_tel = #{memberTel}, trainer_no=#{trainerNo}
+    where member_no = #{memberNo}
+  </update>
   
 </mapper>
