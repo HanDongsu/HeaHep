@@ -18,7 +18,7 @@
     <context:component-scan base-package="HeaHep">     
       <context:exclude-filter type="annotation"
         expression="org.springframework.stereotype.Controller"/>
-    </context:component-scan>
+    </context:component-scan> 
        
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
       <property name="driverClassName" value="${jdbc.driverClassName}"/>
@@ -58,6 +58,7 @@
 
   <!-- 스프링 AOP 기능 활성화 시킨다. -->
   <aop:aspectj-autoproxy />
+
   <!-- 포인트 컷(특정 조건에 해당하는 메서드에 대해)으로 AOP 필터 적용 -->
   <aop:config proxy-target-class="true">
     <!-- 포인트 컷 선언 => 필터를 적용할 대상 클래스와 메서드를 지정 -->

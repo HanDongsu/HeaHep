@@ -35,7 +35,19 @@ public class HMemberController {
 			return JsonResult.fail(e.getMessage());
 		}
 	}
-	
+	@RequestMapping(path="checkedEmail")
+	public Object checkedEmail(String memberEmail) throws Exception {
+	  try {
+	    if(hMemberService.checkedEmail(memberEmail) == null) {
+	      return JsonResult.success();
+	    } else {
+	      return JsonResult.fail();
+	    }
+	  } catch(Exception e) {
+	    e.printStackTrace();
+      return JsonResult.error(e.getMessage());
+	  }
+	}
 //	@RequestMapping(path="userInfoDetail")
 //	public Object userInfoDetail(HttpSession session) throws Exception {
 //		// 이 메서드는 DB에서 작업할 일이 없어서 service 클래스에서 따로 구현할 필요가 없을 것 같다.

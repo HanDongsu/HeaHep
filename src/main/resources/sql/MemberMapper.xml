@@ -40,7 +40,12 @@
     select mbs.member_no, mbs.rank_no, mrk.rank_name
     from members mbs
     left join ranks mrk on mrk.rank_no = mbs.rank_no
-    where mbs.member_no = ${value}
+    where mbs.member_no = #{value}
   </select>
-  
+  <!-- 이메일 중복 체 -->
+  <select id="selectOneByEmail" resultMap="memberMap"
+    parameterType="String">
+    select member_email from members
+    where member_email = #{memberEmail}
+  </select>
 </mapper>

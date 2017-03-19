@@ -6,4 +6,6 @@ public interface HMemberService {
 	void singUpMembers(HMember hMember) throws Exception;
 	void changeInfromation(HMember hMember) throws Exception;
 	HMember getUserInfo(int memberNo) throws Exception;
+	HMember checkedEmail(String memberEmail) throws Exception;
+	
 }

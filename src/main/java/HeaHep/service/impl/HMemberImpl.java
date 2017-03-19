@@ -21,4 +21,7 @@ public class HMemberImpl implements HMemberService {
 		HMember memberInfo = hMemberDao.selectOneByMemberNo(memberNo);
 		return memberInfo;
 	}
+	public HMember checkedEmail(String memberEmail) throws Exception {
+	  return hMemberDao.selectOneByEmail(memberEmail);
+	}
 }
