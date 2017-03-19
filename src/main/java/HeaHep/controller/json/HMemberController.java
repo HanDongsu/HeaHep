@@ -76,10 +76,10 @@ public class HMemberController {
 			HMember hMember = hMemberDao.selectOneByEmailAndPassword(paramMap);
 			
 			if (hMember == null) {
-				sessionStatus.setComplete();
+				sessionStatus.setComplete(); //세션 무효화
 				return JsonResult.fail();
 			} else {
-	      model.addAttribute("member", hMember);
+	      model.addAttribute("member", hMember); // 모델에 로그인 회원 정보 담기
 //				session.setAttribute("member", hMember);
 //				session.setMaxInactiveInterval(60*60*24*30);
 	      System.out.println("model: "+model);
