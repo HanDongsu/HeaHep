@@ -74,6 +74,7 @@ function ajaxSignup(user) {
 				return
 			}
 			alert("축하합니다 가입되었습니다.")
+			location.href = "../hMember/signIn.html"
 		}
 	});
 }

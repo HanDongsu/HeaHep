@@ -4,10 +4,12 @@ import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -48,6 +50,46 @@ public class HMemberController {
       return JsonResult.error(e.getMessage());
 	  }
 	}
+	@RequestMapping(path="login")
+	public Object login(
+			HttpSession session,
+			HttpServletResponse response,
+			String memberEmail,
+			String memberPWD,
+			Boolean saveCookie,
+			Model model,
+			SessionStatus sessionStatus) throws Exception {
+		try {
+			
+			Cookie cookie = new Cookie("memberEmail", memberEmail);
+//      if (!saveCookie) {
+//        cookie.setMaxAge(0); 
+//      } else {
+//        cookie.setMaxAge(60 * 60 * 24 * 30);
+//      }
+			cookie.setMaxAge(60 * 60 * 24 * 30);
+      response.addCookie(cookie);
+			
+			HashMap<String,Object> paramMap = new HashMap<>();
+			paramMap.put("memberEmail", memberEmail);
+			paramMap.put("memberPWD", memberPWD);
+			HMember hMember = hMemberDao.selectOneByEmailAndPassword(paramMap);
+			
+			if (hMember == null) {
+				sessionStatus.setComplete();
+				return JsonResult.fail();
+			} else {
+	      model.addAttribute("member", hMember);
+//				session.setAttribute("member", hMember);
+//				session.setMaxInactiveInterval(60*60*24*30);
+	      System.out.println("model: "+model);
+				return JsonResult.success();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return JsonResult.error(e.getMessage());
+		}
+	}
 //	@RequestMapping(path="userInfoDetail")
 //	public Object userInfoDetail(HttpSession session) throws Exception {
 //		// 이 메서드는 DB에서 작업할 일이 없어서 service 클래스에서 따로 구현할 필요가 없을 것 같다.
@@ -64,31 +106,6 @@ public class HMemberController {
 //		}
 //	}
 //	
-//	@RequestMapping(path="login")
-//  public Object login(
-//      HttpSession session,
-//      String memberEmail,
-//      String memberPWD,
-//      SessionStatus sessionStatus) throws Exception {
-//	 Cookie cookie = new Cookie("key", "value");
-//    try {
-//      HashMap<String,Object> paramMap = new HashMap<>();
-//      paramMap.put("email", memberEmail);
-//      paramMap.put("password", memberPWD);
-//      HMember hMember = hMemberDao.selectOneByEmailAndPassword(paramMap);
-//      
-//      if (hMember == null) {
-//        sessionStatus.setComplete();
-//        return JsonResult.fail();
-//      } else {
-//        session.setAttribute("member", hMember);
-//        session.setMaxInactiveInterval(60*60*24*30);
-//        return JsonResult.success();
-//      }
-//    } catch (Exception e) {
-//      return JsonResult.error(e.getMessage());
-//    }
-//  }
 //
 //	@RequestMapping(path="changeMemberInfo")
 //	public Object changeMemberInfo(HMember hMember) throws Exception {

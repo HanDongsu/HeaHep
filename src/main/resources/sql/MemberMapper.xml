@@ -42,7 +42,7 @@
     left join ranks mrk on mrk.rank_no = mbs.rank_no
     where mbs.member_no = #{value}
   </select>
-  <!-- 이메일 중복 체 -->
+  <!-- 이메일 중복 체크 -->
   <select id="selectOneByEmail" resultMap="memberMap"
     parameterType="String">
     select member_email from members
