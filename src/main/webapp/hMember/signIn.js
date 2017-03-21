@@ -3,6 +3,7 @@ $("#loginMember").on("click",function(){
 		memberEmail : $("#member_Email").val(),
 		memberPWD : $("#member_PWD").val()
 	}
+	console.log(loginInfo);
 	ajaxLogin(loginInfo);
 })
 function ajaxLogin(user) {

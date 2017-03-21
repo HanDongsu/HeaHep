@@ -35,13 +35,13 @@
     where member_no = #{memberNo}
   </update>
   <!-- 회원정보 -->
-  <select id="selectOneByMemberNo" resultMap="memberMap"
-    parameterType="map">
-    select mbs.member_no, mbs.rank_no, mrk.rank_name
-    from members mbs
-    left join ranks mrk on mrk.rank_no = mbs.rank_no
-    where mbs.member_no = #{value}
-  </select>
+<!--   <select id="selectOneByMemberNo" resultMap="memberMap" -->
+<!--     parameterType="map"> -->
+<!--     select mbs.member_no, mbs.rank_no, mrk.rank_name -->
+<!--     from members mbs -->
+<!--     left join ranks mrk on mrk.rank_no = mbs.rank_no -->
+<!--     where mbs.member_no = #{value} -->
+<!--   </select> -->
   <!-- 이메일 중복 체크 -->
   <select id="selectOneByEmail" resultMap="memberMap"
     parameterType="String">

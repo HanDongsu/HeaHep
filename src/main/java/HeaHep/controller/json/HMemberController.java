@@ -56,23 +56,25 @@ public class HMemberController {
 			HttpServletResponse response,
 			String memberEmail,
 			String memberPWD,
-			Boolean saveCookie,
 			Model model,
 			SessionStatus sessionStatus) throws Exception {
 		try {
-			
+		  HashMap<String,Object> paramMap = new HashMap<>();
+      paramMap.put("memberEmail", memberEmail);
+      paramMap.put("memberPWD", memberPWD);
+      System.out.println(paramMap.get("memberEmail"));
+      System.out.println(paramMap.get("memberPWD"));
 			Cookie cookie = new Cookie("memberEmail", memberEmail);
 //      if (!saveCookie) {
 //        cookie.setMaxAge(0); 
 //      } else {
 //        cookie.setMaxAge(60 * 60 * 24 * 30);
 //      }
-			cookie.setMaxAge(60 * 60 * 24 * 30);
+//			cookie.setMaxAge(60 * 60 * 24 * 30);
       response.addCookie(cookie);
+      response.addCookie(new Cookie("memberPWD", memberPWD));
 			
-			HashMap<String,Object> paramMap = new HashMap<>();
-			paramMap.put("memberEmail", memberEmail);
-			paramMap.put("memberPWD", memberPWD);
+			
 			HMember hMember = hMemberDao.selectOneByEmailAndPassword(paramMap);
 			
 			if (hMember == null) {

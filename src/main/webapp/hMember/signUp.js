@@ -78,3 +78,11 @@ function ajaxSignup(user) {
 		}
 	});
 }
+function init() {
+	var cookieMap = bit.cookieToObject()
+	console.log("cookieMap: " + cookieMap);
+	if ("memberEmail" in cookieMap) { // cookieMap 객체에 email 이라는 이름의 프로퍼티가 있는가?
+		$("#member_Email").val(cookieMap["memberEmail"]);
+		$("#member_PWD").val(cookieMap["memberPWD"]);
+	}
+}
