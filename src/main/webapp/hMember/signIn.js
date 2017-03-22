@@ -19,7 +19,21 @@ function ajaxLogin(user) {
 				return
 			}
 			alert("로그인 성공");
+			window.location.href ="../hMain/mainpage.html";
 		}
 	})
 	
+}
+function init() {
+	var cookieMap = bit.cookieToObject()
+	console.log("cookieMap1: " + cookieMap);
+	if ("memberEmail" in cookieMap) { // cookieMap 객체에 email 이라는 이름의 프로퍼티가 있는가?
+		if("memberPWD" in cookieMap) {
+			$("#member_Email").val(cookieMap["memberEmail"]);
+			$("#member_PWD").val(cookieMap["memberPWD"]);
+			window.location.href ="../hMain/mainpage.html";
+			console.log("비번있");
+		}
+		console.log("멤버들어있")
+	}
 }
