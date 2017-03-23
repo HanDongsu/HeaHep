@@ -11,9 +11,21 @@
     <result column="member_tel" property="memberTel"/>
     <result column="member_pwd" property="memberPWD"/>
     <result column="member_gender" property="memberGender"/>
-    <result column="rank_no" property="memberRank"/>
+    <result column="rank_name" property="memberRank"/>
     <result column="trainer_no" property="trainerNo"/>
     <result column="join_date" property="joinedDate"/>
+  </resultMap>
+  <resultMap type="HTrainer" id="trainerMap">
+    <id column="trainer_no" property="trainerNo"/>
+    <result column="trainer_photo" property="trainerPhoto"/>
+    <result column="trainer_comment" property="trainerComment"/>
+    <result column="member_name" property="trainerName"/>
+    <result column="member_email" property="trainerEmail"/>
+    <result column="member_gender" property="trainerGender"/>
+    <result column="center_name" property="centerName"/>
+    <result column="center_addr" property="centerAddr"/>
+    <result column="center_city" property="centerCity"/>
+    <result column="center_branch" property="centerBranch"/>
   </resultMap>
   <!-- 회원가입 -->
   <insert id="joinMember" parameterType="HMember"
@@ -24,7 +36,7 @@
   <!-- 로그인 -->
   <select id="selectOneByEmailAndPassword" resultMap="memberMap"
     parameterType="map">
-    select mbs.member_no, mbs.rank_no, mrk.rank_name
+    select mbs.member_no, mbs.rank_no, mrk.rank_name, 
     from members mbs
     left join ranks mrk on mrk.rank_no = mbs.rank_no
     where mbs.member_email=#{memberEmail} and mbs.member_pwd=password(#{memberPWD})
@@ -35,13 +47,14 @@
     where member_no = #{memberNo}
   </update>
   <!-- 회원정보 -->
-<!--   <select id="selectOneByMemberNo" resultMap="memberMap" -->
-<!--     parameterType="map"> -->
-<!--     select mbs.member_no, mbs.rank_no, mrk.rank_name -->
-<!--     from members mbs -->
-<!--     left join ranks mrk on mrk.rank_no = mbs.rank_no -->
-<!--     where mbs.member_no = #{value} -->
-<!--   </select> -->
+  <select id="selectOneByMemberEmail" resultMap="memberMap"
+    parameterType="map">
+    select mbs.member_email, mbs.member_name, mrk.rank_name, mbs.member_Tel, mbs.member_Gender,
+           mbs.join_Date
+    from members mbs
+    left join ranks mrk on mrk.rank_no = mbs.rank_no
+    where mbs.member_email = #{memberEmail}
+  </select>
   <!-- 이메일 중복 체크 -->
   <select id="selectOneByEmail" resultMap="memberMap"
     parameterType="String">

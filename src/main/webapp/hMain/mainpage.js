@@ -12,4 +12,4 @@ function detectmob() {
    else { 
          return false; 
     } 
-} 
+}
