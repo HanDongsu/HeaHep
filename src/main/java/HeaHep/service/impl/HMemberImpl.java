@@ -19,6 +19,9 @@ public class HMemberImpl implements HMemberService {
 	public HMember checkedEmail(String memberEmail) throws Exception {
 		return hMemberDao.selectOneByEmail(memberEmail);
 	}
+	public HMember checkedNick(String memberNick) throws Exception {
+    return hMemberDao.selectOneByNick(memberNick);
+  }
 	public HMember getLogon(Map<String, Object> paramMap) throws Exception{
 		return hMemberDao.selectOneByEmailAndPassword(paramMap);
 	}

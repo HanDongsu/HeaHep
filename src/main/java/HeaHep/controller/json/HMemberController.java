@@ -37,10 +37,10 @@ public class HMemberController {
 			return JsonResult.fail(e.getMessage());
 		}
 	}
-	@RequestMapping(path="checkedEmail")
-	public Object checkedEmail(String memberEmail) throws Exception {
+	@RequestMapping(path="checkedNick")
+	public Object checkedNick(String memberNick) throws Exception {
 	  try {
-	    if(hMemberService.checkedEmail(memberEmail) == null) {
+	    if(hMemberService.checkedNick(memberNick) == null) {
 	      return JsonResult.success();
 	    } else {
 	      return JsonResult.fail();
@@ -50,6 +50,19 @@ public class HMemberController {
       return JsonResult.error(e.getMessage());
 	  }
 	}
+	@RequestMapping(path="checkedEmail")
+  public Object checkedEmail(String memberEmail) throws Exception {
+    try {
+      if(hMemberService.checkedEmail(memberEmail) == null) {
+        return JsonResult.success();
+      } else {
+        return JsonResult.fail();
+      }
+    } catch(Exception e) {
+      e.printStackTrace();
+      return JsonResult.error(e.getMessage());
+    }
+  }
 	@RequestMapping(path="login")
 	public Object login(
 			HttpSession session,

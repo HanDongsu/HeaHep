@@ -8,10 +8,12 @@ public class HMember {
   protected int memberNo;
   protected String memberName;
   protected String memberEmail;
+  protected String memberNick;
   protected String memberTel;
   protected String memberPWD;
   protected String memberGender;
   protected String memberRank;
+  protected int rankNo;
   protected int trainerNo;
   protected String trainerName;
   protected Date joinedDate;
@@ -36,6 +38,12 @@ public class HMember {
   public void setMemberEmail(String memberEmail) {
     this.memberEmail = memberEmail;
   }
+  public String getMemberNick() {
+    return memberNick;
+  }
+  public void setMemberNick(String memberNick) {
+    this.memberNick = memberNick;
+  }
   public String getMemberTel() {
     return memberTel;
   }
@@ -59,6 +67,12 @@ public class HMember {
   }
   public void setMemberRank(String memberRank) {
     this.memberRank = memberRank;
+  }
+  public int getRankNo() {
+    return rankNo;
+  }
+  public void setRankNo(int rankNo) {
+    this.rankNo = rankNo;
   }
   public int getTrainerNo() {
     return trainerNo;

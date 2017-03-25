@@ -1,5 +1,6 @@
 var checkedEmail;
 var checkedPassword;
+var checkedNick;
 $(document).ready(function(){
 	$("#check_member_PWD").keyup(function(){
 		var pw1 = $("#member_PWD").val();
@@ -40,6 +41,34 @@ $(document).ready(function(){
 			}
 		}
 	});
+	
+	$("#member_Nick").keyup(function(){
+		var nick = $("#member_Nick").val();
+		if(nick.length >= 1) {
+			if(isNick(nick)) {
+				$("#check_Nick_msg").html("특수문자가 잘못.");
+				checkedNick = false;
+			} else {
+				$.ajax({
+					url:serverAddr + "/hMember/checkedNick.json",
+					type: "POST",
+					dataType: "json",
+					data: {memberNick:nick},
+					success: function (obj) {
+						var result = obj.jsonResult
+						if (result.state != "success") {
+							$("#check_Nick_msg").html("사용중인 이메일 입니다.");
+							checkedNick = false;
+						} else {
+							$("#check_Nick_msg").html("사용 가능한 이메일 입니다.");
+							checkedNick = true;
+						}
+					}
+				});
+			}
+		}
+	});
+	
 });
 $("#submitMember").click(function(event){
 	var memberData = {
@@ -47,16 +76,26 @@ $("#submitMember").click(function(event){
 		memberPWD: $("#member_PWD").val(),
 		memberName: $("#member_Name").val(),
 		memberGender: $(".member_Gender").val(),
-		memberTel: $("#member_Tel").val()
+		memberTel: $("#member_Tel").val(),
+		memberNick: $("#member_Nick").val()
 	}
 	ajaxSignup(memberData);
 });
 function isEmail(email) {
 	var regex=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;   
-	if(regex.test(email) === false) {  
+	if(regex.test(email) === false) {
 		return false;  
-	} else {  
+	} else {
 		return true;
+	}
+}
+function isNick(nick) {
+	var blank_pattern = /[\s]/g;
+	var special_pattern = /[<>{}[]`~!@#$%^&*|\\\'\";:\/?]/gi;
+	if(blank_pattern.test(nick) === true||special_pattern.test(nick) === true){
+		return true;
+	} else {
+		return false;
 	}
 }
 
@@ -69,7 +108,7 @@ function ajaxSignup(user) {
 		success: function (obj) {
 			var result = obj.jsonResult
 			
-			if (result.state != "success"||checkedEmail!=true||checkedPassword!=true) {
+			if (result.state != "success"||checkedEmail!=true||checkedPassword!=true||checkedNick!=true) {
 				alert("가입실패 하였습니다. 정확히 입력 후 재시도 해주세요")
 				return
 			}
