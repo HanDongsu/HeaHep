@@ -45,8 +45,8 @@ $(document).ready(function(){
 	$("#member_Nick").keyup(function(){
 		var nick = $("#member_Nick").val();
 		if(nick.length >= 1) {
-			if(isNick(nick)) {
-				$("#check_Nick_msg").html("특수문자가 잘못.");
+			if(!isNick(nick)) {
+				$("#check_Nick_msg").html("공백이나 특수문자는 사용할 수 없습니다.");
 				checkedNick = false;
 			} else {
 				$.ajax({
@@ -57,13 +57,13 @@ $(document).ready(function(){
 					success: function (obj) {
 						var result = obj.jsonResult
 						if (result.state != "success") {
-							$("#check_Nick_msg").html("사용중인 이메일 입니다.");
+							$("#check_Nick_msg").html("사용 불가");
 							checkedNick = false;
 						} else {
-							$("#check_Nick_msg").html("사용 가능한 이메일 입니다.");
+							$("#check_Nick_msg").html("사용 가능");
 							checkedNick = true;
 						}
-					}
+					} 
 				});
 			}
 		}
@@ -90,15 +90,13 @@ function isEmail(email) {
 	}
 }
 function isNick(nick) {
-	var blank_pattern = /[\s]/g;
-	var special_pattern = /[<>{}[]`~!@#$%^&*|\\\'\";:\/?]/gi;
-	if(blank_pattern.test(nick) === true||special_pattern.test(nick) === true){
+	var regex = /[\s\{\}\[\]\/?.,;:|\)*~`!^\+<>@\#$%&\'\"\\\(\=]/gi;
+	if(regex.test(nick) === false){
 		return true;
 	} else {
 		return false;
 	}
 }
-
 function ajaxSignup(user) {
 	$.ajax({
 		url:serverAddr + "/hMember/joinMember.json",
@@ -107,7 +105,6 @@ function ajaxSignup(user) {
 		data: user,
 		success: function (obj) {
 			var result = obj.jsonResult
-			
 			if (result.state != "success"||checkedEmail!=true||checkedPassword!=true||checkedNick!=true) {
 				alert("가입실패 하였습니다. 정확히 입력 후 재시도 해주세요")
 				return
@@ -117,4 +114,3 @@ function ajaxSignup(user) {
 		}
 	});
 }
-
