@@ -75,12 +75,13 @@ $("#submitMember").click(function(event){
 		memberEmail: $("#member_Email").val(),
 		memberPWD: $("#member_PWD").val(),
 		memberName: $("#member_Name").val(),
-		memberGender: $(".member_Gender").val(),
+		memberGender: $("#member_Gender").val(),
 		memberTel: $("#member_Tel").val(),
 		memberNick: $("#member_Nick").val()
 	}
 	ajaxSignup(memberData);
 });
+// 이메일 유효성
 function isEmail(email) {
 	var regex=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;   
 	if(regex.test(email) === false) {
@@ -89,9 +90,31 @@ function isEmail(email) {
 		return true;
 	}
 }
+// 닉네임 유효성
 function isNick(nick) {
 	var regex = /[\s\{\}\[\]\/?.,;:|\)*~`!^\+<>@\#$%&\'\"\\\(\=]/gi;
 	if(regex.test(nick) === false){
+		return true;
+	} else {
+		return false;
+	}
+}
+// \w 알파벳+숫자+언더바 
+// 패스워드 유효성
+function isPWD(pwd) {
+	var regexK = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]$/g; // 한글
+	var regexS = /[\s\{\}\[\]\/.,:\)*~`!^\+<>@\#%\(\-\_]/; //특수문자
+	// 특수문자 중 $ ; & | % ' " = # ? ＼ 는 사용하실 수 없습니다.
+	var regexN = /[\d]/; // 숫자
+	var regexL = /[\l]/; // 소문자
+	var regexU = /[\u]/; // 대문자
+	var regex = /^[a-zA-Z]/ 
+	if(regexK.test(pwd) === false){
+		if(regexS.test(pwd)===true && regexN.test(pwd)===true){
+			return true;
+		} else if(regexS.test(pwd)===true && regexB.text(pwd)===true){
+			return true;
+		}
 		return true;
 	} else {
 		return false;
@@ -113,4 +136,10 @@ function ajaxSignup(user) {
 			location.href = "../hMember/signIn.html"
 		}
 	});
+}
+
+function maxLengthCheck(object){
+    if (object.value.length > 11){
+        object.value = object.value.slice(0, 11);
+    }    
 }
