@@ -1,7 +1,25 @@
 var checkedEmail;
 var checkedPassword;
+var checkedPassword2;
 var checkedNick;
 $(document).ready(function(){
+	$("#member_PWD").keyup(function(){
+		var pwd = $("#member_PWD").val();
+		console.log("pwd: "+isPWD(pwd));
+//		if(pwd.length >= 1) {
+//			if(!isPWD(pwd)) {
+//				console.log(pwd)
+//				$("#password_alert").html("사용 불가");
+//				checkedPassword2 = false;
+//			} else {
+//				$("#password_alert").html("사용 가능");
+				console.log(pwd)
+//				checkedPassword2 = true;
+//			}
+//		} else {
+//			$("#password_alert").html("");
+//		}
+	});
 	$("#check_member_PWD").keyup(function(){
 		var pw1 = $("#member_PWD").val();
 		var pw2 = $("#check_member_PWD").val();
@@ -13,6 +31,8 @@ $(document).ready(function(){
 				$("#check_PWD_msg").html("비번호가 일치합니다.");
 				checkedPassword = true;
 			}
+		} else {
+			$("#check_PWD_msg").html("");
 		}
 	});
 	$("#member_Email").keyup(function(){
@@ -39,6 +59,8 @@ $(document).ready(function(){
 					}
 				});
 			}
+		} else {
+			$("#check_Email_msg").html("");
 		}
 	});
 	
@@ -66,6 +88,8 @@ $(document).ready(function(){
 					} 
 				});
 			}
+		} else {
+			$("#check_Nick_msg").html("");
 		}
 	});
 	
@@ -79,6 +103,7 @@ $("#submitMember").click(function(event){
 		memberTel: $("#member_Tel").val(),
 		memberNick: $("#member_Nick").val()
 	}
+	console.log("pass: "+ $("#member_PWD").val())
 	ajaxSignup(memberData);
 });
 // 이메일 유효성
@@ -102,23 +127,41 @@ function isNick(nick) {
 // \w 알파벳+숫자+언더바 
 // 패스워드 유효성
 function isPWD(pwd) {
-	var regexK = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]$/g; // 한글
-	var regexS = /[\s\{\}\[\]\/.,:\)*~`!^\+<>@\#%\(\-\_]/; //특수문자
-	// 특수문자 중 $ ; & | % ' " = # ? ＼ 는 사용하실 수 없습니다.
-	var regexN = /[\d]/; // 숫자
-	var regexL = /[\l]/; // 소문자
-	var regexU = /[\u]/; // 대문자
-	var regex = /^[a-zA-Z]/ 
-	if(regexK.test(pwd) === false){
-		if(regexS.test(pwd)===true && regexN.test(pwd)===true){
-			return true;
-		} else if(regexS.test(pwd)===true && regexB.text(pwd)===true){
-			return true;
+//	var regexK = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]$/g; // 한글 /^[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣]$/g;
+//	var regexS = /[\s\{\}\[\]\/.,:\)*~`!^\+<>@\#%\(\-\_]/; //특수문자
+//	// 특수문자 중 $ ; & | % ' " = # ? ＼ 는 사용하실 수 없습니다.
+//	var regexN = /[\d]/; // 숫자
+//	var regexL = /[\l]/; // 소문자
+//	var regexU = /[\u]/; // 대문자
+	var regex1 = 
+		/^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*\d))|((?=.*[a-z])(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))|((?=.*[A-Z])(?=.*\d))|((?=.*[A-Z])(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))|((?=.*\d)(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))).{8,16}$/;
+	var regex2 =
+		/^(((?=.*[a-z])(?=.*[A-Z])(?=.*\d))|((?=.*[a-z])(?=.*[A-Z])(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))|((?=.*[A-Z])(?=.*\d)(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))|((?=.*[a-z])(?=.*\d)(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))).{8,16}$/;
+	var regex3 =
+		/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))/;
+//	var regex = /^(?=.*[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣])(?=.*[a-z])((?=.*[a-z])|(?=.*[A-Z])|(?=.*\d)|(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_])).{8,16}$/;
+	var exceptions = /[\#\$\;\&\|\%\'\"\=\?\\]/;
+	var regexK = /^(?=.*[ㄱ-ㅎ|ㅏ-ㅣ|가-힣])/;
+	console.log("re1: "+ regex1.test(pwd))
+	console.log("re2: "+ regex2.test(pwd))
+	console.log("re3: "+ regex3.test(pwd))
+	if(exceptions.test(pwd) === false) {
+		if(regex3.test(pwd) === true){
+			return "highPassLV";
+		} else if(regex2.test(pwd) === true){
+			return "midPassLV";
+		} else if(regex1.test(pwd) === true) {
+			return "lowPassLV";
 		}
-		return true;
 	} else {
-		return false;
+		return "특정 문자 못써열";
+		
 	}
+//	var regex1 = /(?=.*[a-z])/;
+//	var regex2 = /(?=.*[A-Z])/;
+//	var regex3 = /(?=.*\d)/;
+//	var regex4 = /(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_])/;
+//	if(regex1.test(pwd)===false||regex2.test(pwd)===false||)
 }
 function ajaxSignup(user) {
 	$.ajax({
@@ -128,18 +171,18 @@ function ajaxSignup(user) {
 		data: user,
 		success: function (obj) {
 			var result = obj.jsonResult
-			if (result.state != "success"||checkedEmail!=true||checkedPassword!=true||checkedNick!=true) {
+			if (result.state != "success"||checkedEmail!=true||checkedPassword!=true||checkedNick!=true||checkedPassword2!=true) {
 				alert("가입실패 하였습니다. 정확히 입력 후 재시도 해주세요")
 				return
 			}
-			alert("축하합니다 가입되었습니다.")
+			alert("축하합니다 가입되었습니다.<br>로그인페이지로 이동합니다.")
 			location.href = "../hMember/signIn.html"
 		}
 	});
 }
 
-function maxLengthCheck(object){
-    if (object.value.length > 11){
-        object.value = object.value.slice(0, 11);
-    }    
-}
+//function maxLengthCheck(object){
+//    if (object.value.length > 11){
+//        object.value = object.value.slice(0, 11);
+//    }    
+//}
