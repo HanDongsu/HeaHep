@@ -187,7 +187,7 @@ function isPWD(pwd) {
 		/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))/;
 	var exceptions = /[\#\$\;\&\|\%\'\"\=\?\\]/;
 	var regexK = /^(?=.*[ㄱ-ㅎ|ㅏ-ㅣ|가-힣])/;
-	if(!exceptions.test(pwd)&& !regexK.test(pwd)) {
+	if(!exceptions.test(pwd) && !regexK.test(pwd)) {
 		if(pwd.length > 7 && pwdHighLV_checker.test(pwd)){
 			return "pwdHighLV";
 		} else if(pwd.length > 7 && pwdMidLV_checker.test(pwd)){
