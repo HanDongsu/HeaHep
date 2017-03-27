@@ -3,22 +3,74 @@ var checkedPassword;
 var checkedPassword2;
 var checkedNick;
 $(document).ready(function(){
-	$("#member_PWD").keyup(function(){
-		var pwd = $("#member_PWD").val();
-		console.log("pwd: "+isPWD(pwd));
-//		if(pwd.length >= 1) {
+//	$("#member_PWD").keyup(function(){
+//		var pwd = $("#member_PWD").val();
+//		if(pwd.length >= 8) {
+//			console.log("pwd: "+isPWD(pwd));
 //			if(!isPWD(pwd)) {
 //				console.log(pwd)
 //				$("#password_alert").html("사용 불가");
 //				checkedPassword2 = false;
 //			} else {
 //				$("#password_alert").html("사용 가능");
-				console.log(pwd)
+//				console.log(pwd)
 //				checkedPassword2 = true;
 //			}
 //		} else {
 //			$("#password_alert").html("");
 //		}
+//	});
+	$("#member_PWD").keyup(function(){
+		var pwd = $("#member_PWD").val();
+		if(pwd.length >= 8) {
+			switch(isPWD(pwd)) {
+			case 'pwdHighLV':
+				$("#password_alert").html(" 보안 높음.");
+				$("#password_alert").css({"color":"green"});
+				checkedPassword2 = true;
+				break;
+			case 'pwdMidLV':
+				$("#password_alert").html(" 보안 중간.");
+				$("#password_alert").css({"color":"yellow"});
+				checkedPassword2 = true;
+				break;
+			case 'pwdLowLV':
+				$("#password_alert").html(" 보안 낮음.");
+				$("#password_alert").css({"color":"red"});
+				checkedPassword2 = true;
+				break;
+			case 'pwdFailed':
+				$("#password_alert").html(" 1한글 및 \$ \; \& \| \% \' \" \= \# ? ＼. 사용 불가");
+				$("#password_alert").css({"color":"black"});
+				checkedPassword2 = false;
+				break;
+			case 'pwdRefuse':
+				$("#password_alert").html(" 2가지 이상 조합1");
+				$("#password_alert").css({"color":"black"});
+				checkedPassword2 = false;
+				break;
+			}
+		} else if(isPWD(pwd) == "pwdFailed"){
+			$("#password_alert").html(" 2한글 및 \$ \; \& \| \% \' \" \= \# ? ＼. 사용 불가");
+			$("#password_alert").css({"color":"black"});
+			checkedPassword2 = false;
+		} else if(isPWD(pwd) == "pwdRefuse"){
+			$("#password_alert").html(" 2가지 이상 조합해주세요");
+			$("#password_alert").css({"color":"black"});
+			checkedPassword2 = false;
+		} else if(pwd.length == 0){
+			$("#password_alert").html("");
+			$("#password_alert").css({"color":"black"});
+			checkedPassword2 = false;
+		} else if(isPWD(pwd) == "pwdTooShort"){
+			$("#password_alert").html(" 8자 이상 써주세요.");
+			$("#password_alert").css({"color":"black"});
+			checkedPassword2 = false;
+		} else if(isPWD(pwd) =="pwdTooShortandRefuse") {
+			$("#password_alert").html(" 8자 이상 2가지 이상 조합해주세요");
+			$("#password_alert").css({"color":"black"});
+			checkedPassword2 = false;
+		}
 	});
 	$("#check_member_PWD").keyup(function(){
 		var pw1 = $("#member_PWD").val();
@@ -127,42 +179,50 @@ function isNick(nick) {
 // \w 알파벳+숫자+언더바 
 // 패스워드 유효성
 function isPWD(pwd) {
+	var pwdLowLV_checker = 
+		/^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*\d))|((?=.*[a-z])(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))|((?=.*[A-Z])(?=.*\d))|((?=.*[A-Z])(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))|((?=.*\d)(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_])))/;
+	var pwdMidLV_checker =
+		/^(((?=.*[a-z])(?=.*[A-Z])(?=.*\d))|((?=.*[a-z])(?=.*[A-Z])(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))|((?=.*[A-Z])(?=.*\d)(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))|((?=.*[a-z])(?=.*\d)(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_])))/;
+	var pwdHighLV_checker =
+		/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))/;
+	var exceptions = /[\#\$\;\&\|\%\'\"\=\?\\]/;
+	var regexK = /^(?=.*[ㄱ-ㅎ|ㅏ-ㅣ|가-힣])/;
+	if(!exceptions.test(pwd)&& !regexK.test(pwd)) {
+		if(pwd.length > 7 && pwdHighLV_checker.test(pwd)){
+			return "pwdHighLV";
+		} else if(pwd.length > 7 && pwdMidLV_checker.test(pwd)){
+			return "pwdMidLV";
+		} else if(pwd.length > 7 && pwdLowLV_checker.test(pwd)) {
+			return "pwdLowLV";
+		} else if(pwd.length < 8){
+			if(!pwdHighLV_checker.test(pwd)&&!pwdMidLV_checker.test(pwd)&&!pwdLowLV_checker.test(pwd)) {
+				return "pwdTooShortandRefuse";
+			} else {
+				return "pwdTooShort";
+			}
+//		} else if(pwd.length > 7){
+//			if(!pwdHighLV_checker.test(pwd)&&!pwdMidLV_checker.test(pwd)&&!pwdLowLV_checker.test(pwd)) {
+//				return "pwdRefuse";
+//			}
+		} else {
+			return "pwdRefuse";
+		}
+	} else {
+		return "pwdFailed";
+	}
+}
 //	var regexK = /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]$/g; // 한글 /^[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣]$/g;
 //	var regexS = /[\s\{\}\[\]\/.,:\)*~`!^\+<>@\#%\(\-\_]/; //특수문자
 //	// 특수문자 중 $ ; & | % ' " = # ? ＼ 는 사용하실 수 없습니다.
 //	var regexN = /[\d]/; // 숫자
 //	var regexL = /[\l]/; // 소문자
 //	var regexU = /[\u]/; // 대문자
-	var regex1 = 
-		/^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*\d))|((?=.*[a-z])(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))|((?=.*[A-Z])(?=.*\d))|((?=.*[A-Z])(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))|((?=.*\d)(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))).{8,16}$/;
-	var regex2 =
-		/^(((?=.*[a-z])(?=.*[A-Z])(?=.*\d))|((?=.*[a-z])(?=.*[A-Z])(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))|((?=.*[A-Z])(?=.*\d)(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))|((?=.*[a-z])(?=.*\d)(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))).{8,16}$/;
-	var regex3 =
-		/^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_]))/;
 //	var regex = /^(?=.*[^ㄱ-ㅎ|ㅏ-ㅣ|가-힣])(?=.*[a-z])((?=.*[a-z])|(?=.*[A-Z])|(?=.*\d)|(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_])).{8,16}$/;
-	var exceptions = /[\#\$\;\&\|\%\'\"\=\?\\]/;
-	var regexK = /^(?=.*[ㄱ-ㅎ|ㅏ-ㅣ|가-힣])/;
-	console.log("re1: "+ regex1.test(pwd))
-	console.log("re2: "+ regex2.test(pwd))
-	console.log("re3: "+ regex3.test(pwd))
-	if(exceptions.test(pwd) === false) {
-		if(regex3.test(pwd) === true){
-			return "highPassLV";
-		} else if(regex2.test(pwd) === true){
-			return "midPassLV";
-		} else if(regex1.test(pwd) === true) {
-			return "lowPassLV";
-		}
-	} else {
-		return "특정 문자 못써열";
-		
-	}
 //	var regex1 = /(?=.*[a-z])/;
 //	var regex2 = /(?=.*[A-Z])/;
 //	var regex3 = /(?=.*\d)/;
 //	var regex4 = /(?=.*[\s\{\}\[\]\/.,:\)*~`!^\+<>@\(\-\_])/;
 //	if(regex1.test(pwd)===false||regex2.test(pwd)===false||)
-}
 function ajaxSignup(user) {
 	$.ajax({
 		url:serverAddr + "/hMember/joinMember.json",
