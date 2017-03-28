@@ -2,32 +2,73 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>네이버 로그인</title>
-  <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.2.js" charset="utf-8"></script>
-  <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 </head>
-<body>
-  <!-- 네이버아이디로로그인 버튼 노출 영역 -->
-  <div id="naver_id_login"></div>
-  <!-- //네이버아이디로로그인 버튼 노출 영역 -->
-  <script type="text/javascript">
-    var naver_id_login = new naver_id_login("E_rDA6NMj09ho0XxftSN", "http://211.54.66.81:8080/HeaHep/hMain/test.html");
-    var state = naver_id_login.getUniqState();
-    naver_id_login.setButton("white", 2,40);
-    naver_id_login.setDomain(".service.com");
-    naver_id_login.setState(state);
-    naver_id_login.setPopup();
-    naver_id_login.init_naver_id_login();
-  </script>
-	<script type="text/javascript">
-	  // 네이버 사용자 프로필 조회
-	  naver_id_login.get_naver_userprofile("naverSignInCallback()");
-	  // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
-	  function naverSignInCallback() {
-	    alert(naver_id_login.getProfileData('email'));
-	    alert(naver_id_login.getProfileData('nickname'));
-	    alert(naver_id_login.getProfileData('age'));
+  <body><div id="app">
+  {{ message }}
+  </div>
+  <div id="app-2">
+  <span v-bind:title="message">
+    내 위에 잠시 마우스를 올리면 동적으로 바인딩 된 title을 볼 수 있습니다!
+  </span>
+</div>
+
+<div id="app-3">
+  <p v-if="seen">이제 나를 볼 수 있어요</p>
+</div>
+
+<div id="app-4">
+  <ol>
+    <li v-for="todo in todos">
+      {{ todo.text }}
+    </li>
+  </ol>
+</div>
+<div id="app-5">
+  <p>{{ message }}</p>
+  <button v-on:click="reverseMessage">메시지 뒤집기</button>
+</div>
+  </body>
+  <script type="text/javascript" src="../node_modules/vue/dist/vue.js"></script>
+  <script>
+  var app = new Vue({
+	  el: '#app',
+	  data: {
+	    message: '안녕하세요 Vue!'
 	  }
-	</script>
+	});
+  var app2 = new Vue({
+	  el: '#app-2',
+	  data: {
+	    message: '이 페이지는 ' + new Date() + ' 에 로드 되었습니다'
+	  }
+	});
+  var app3 = new Vue({
+	  el: '#app-3',
+	  data: {
+	    seen: true
+	  }
+	});
+  var app4 = new Vue({
+	  el: '#app-4',
+	  data: {
+	    todos: [
+	      { text: 'JavaScript 배우기' },
+	      { text: 'Vue 배우기' },
+	      { text: '무언가 멋진 것을 만들기' }
+	    ]
+	  }
+	});
+  var app5 = new Vue({
+	  el: '#app-5',
+	  data: {
+	    message: '안녕하세요! Vue.js!'
+	  },
+	  methods: {
+	    reverseMessage: function () {
+	      this.message = this.message.split('').reverse().join('')
+	    }
+	  }
+	});
+  </script>
 </html>
       
