@@ -19,15 +19,16 @@
   </resultMap>
   <resultMap type="HTrainer" id="trainerMap">
     <id column="trainer_no" property="trainerNo"/>
+    <result column="member_no" property="memberNo"/>
     <result column="trainer_photo" property="trainerPhoto"/>
     <result column="trainer_comment" property="trainerComment"/>
     <result column="member_name" property="trainerName"/>
     <result column="member_email" property="trainerEmail"/>
-    <result column="member_gender" property="trainerGender"/>
     <result column="center_name" property="centerName"/>
-    <result column="center_addr" property="centerAddr"/>
-    <result column="center_city" property="centerCity"/>
-    <result column="center_branch" property="centerBranch"/>
+    <result column="centeraddr_si" property="centerAddrSi"/>
+    <result column="centeraddr_gu" property="centerAddrGu"/>
+    <result column="centeraddr_detail" property="centerAddrDetail"/>
+    <result column="signin_date" property="signInDate"/>
   </resultMap>
   <!-- 회원가입 -->
   <insert id="joinMember" parameterType="HMember"
@@ -80,7 +81,15 @@
   <!-- 트레이너 등록(관리자용) -->
   <insert id="joinTrainer" parameterType="HTrainer"
     useGeneratedKeys="true" keyProperty="trainerNo" keyColumn="trainer_no">
-    insert into trainers(member_no, trainer_name)
-    value((select member_name from members where member_no=#{memberNo}), #{memberNo})
+    insert into trainers(member_no, trainer_name, center_name, centeraddr_si, centeraddr_gu, centeraddr_detail, signin_date)
+    value(#{memberNo}, (select member_name from members where member_no=#{memberNo}), #{centerName},#{centerAddrSi},#{centerAddrGu},#{centerAddrDetail}, now())
   </insert>
+  <!-- 트레이너 정보 -->
+  <select id="selectOnByTrainerNo" resultMap="trainerMap" parameterType="map">
+    select mbs.member_no, tns.trainer_no, rk.rank_name, mbs.member_tel, tns.center_name
+    from members mbs
+    left join rank rk on rk.rank_no = mbs.rank_no
+    left join trainers tns on mbs.member_no = tns.member_no
+    where mbs.member_name = #{trainerName}
+  </select>
 </mapper>

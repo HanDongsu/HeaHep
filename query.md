@@ -24,3 +24,14 @@ from members mbs
 left join ranks mrk on mrk.rank_no = mbs.rank_no
 left join trainers trs on mbs.trainer_no = trs.trainer_no
 where mbs.member_email = "a@ab.com";
+
+select mbs.member_no, tns.trainer_no, rk.rank_name, mbs.member_tel, tns.center_name
+    from members mbs
+    left join ranks rk on rk.rank_no = mbs.rank_no
+    left join trainers tns on mbs.member_no = tns.member_no
+    where mbs.member_name = 'ㅎㅎㅎㅎ';
+
+update members set rank_no = 4
+where member_no = 3;
+insert into trainers(member_no, trainer_name)
+    value((select member_no from members where member_no=3), (select member_name from members where member_no=3))

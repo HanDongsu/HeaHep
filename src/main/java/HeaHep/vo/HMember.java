@@ -13,12 +13,16 @@ public class HMember {
   protected String memberPWD;
   protected String memberGender;
   protected String memberRank;
-  protected int rankNo;
   protected int trainerNo;
   protected String trainerName;
   protected Date joinedDate;
   protected String joinedDate2;
   static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+  protected Date startDate;  //등록 시작일
+  protected Date endDate;    //등록 종료일
+  protected Date stopSDate;  //정지 시작일
+  protected Date stopEDate;  //정지 종료일
+  protected int stopDate;    //정지 총일수
   
   public int getMemberNo() {
     return memberNo;
@@ -56,7 +60,7 @@ public class HMember {
   public void setMemberPWD(String memberPWD) {
     this.memberPWD = memberPWD;
   }
-  public String isMemberGender() {
+  public String getMemberGender() {
     return memberGender;
   }
   public void setMemberGender(String memberGender) {
@@ -67,12 +71,6 @@ public class HMember {
   }
   public void setMemberRank(String memberRank) {
     this.memberRank = memberRank;
-  }
-  public int getRankNo() {
-    return rankNo;
-  }
-  public void setRankNo(int rankNo) {
-    this.rankNo = rankNo;
   }
   public int getTrainerNo() {
     return trainerNo;
@@ -106,4 +104,38 @@ public class HMember {
   public static void setFormat(SimpleDateFormat format) {
     HMember.format = format;
   }
+  
+  public Date getStartDate() {
+    return startDate;
+  }
+  public void setStartDate(Date startDate) {
+    this.startDate = startDate;
+  }
+  public Date getEndDate() {
+    return endDate;
+  }
+  public void setEndDate(Date endDate) {
+    this.endDate = endDate;
+  }
+  public Date getStopSDate() {
+    return stopSDate;
+  }
+  public void setStopSDate(Date stopSDate) {
+    this.stopSDate = stopSDate;
+  }
+  public Date getStopEDate() {
+    return stopEDate;
+  }
+  public void setStopEDate(Date stopEDate) {
+    this.stopEDate = stopEDate;
+  }
+  public int getStopDate() {
+    return stopDate;
+  }
+  public void setStopDate(int stopDate) {
+    this.stopDate = stopDate;
+  }
+  
+  
+  
 }

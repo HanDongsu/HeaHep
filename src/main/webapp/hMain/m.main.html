@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+<link rel="shortcut icon" type="image/x-icon" href="../favicon.icon">
+<link rel="stylesheet" type="text/css" href="../commons/css/reset.css">
+<link rel="stylesheet" type="text/css" href="../header/header.css">
+<link rel="stylesheet" type="text/css" href="mainpage.css">
+<title>HeaHep</title>
+</head>
+<body>
+  <!-- 헤더 -->
+	<div id="header_wrap" data-load="load">
+  </div>
+  <!-- //헤더 -->
+  <!-- 바디 -->
+	<div id="body_wrap">
+	  <div>
+	  </div>
+	</div>
+  <!-- //바디 -->
+	<!-- 푸터 -->
+	<div id="footer_wrap">
+	</div>
+	<!-- //푸터 -->
+	<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+	<script type='text/javascript' src="../common.js"></script>
+	<script type='text/javascript' src="../hMain/mainpage.js"></script>
+  <script>
+  $("#header_wrap").load("../header/header.html #header_contents");
+//   $("#header_wrap").load("../header/header.html")
+//   console.log("device: "+navigator.userAgent);
+  </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+#header_group {
+  position: relative;
+  padding: 1% 0;
+  background-color: black;
+}
+
+#header_group>#hamburger_btn{
+	position: absolute;
+	left: 1%;
+	width: 30px;
+	height: 30px;
+}
+#header_group>#home_btn {
+	position: absolute;
+	right: 1%;
+  width: 30px;
+  height: 30px;
+}
+#header_group>#logo {
+	font-size: 26px;
+	width: 98px;
+	margin: 0 auto;
+	color:white;
+}
+#header_group>#logored {
+  font-size: 26px;
+  width: 98px;
+  margin: 0 auto;
+  color:red;
+}
