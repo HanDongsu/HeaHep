@@ -21,13 +21,13 @@ import HeaHep.vo.JsonResult;
 
 @Controller
 @RequestMapping({"/hMember/"})
-@SessionAttributes({"HMember"})
+@SessionAttributes({"HMember","HTrainer"})
 public class HMemberController {
-	@Autowired HMemberService hMemberService;
 	@Autowired ServletContext sc;
+	@Autowired HMemberService hMemberService;
 	@Autowired HMemberDao hMemberDao;
 	
-	@RequestMapping(path="joinMember")
+	@RequestMapping(path="joinMember")  // 회원가입
 	public Object joinMember(HMember hMember) throws Exception {
 		try {
 		  hMemberService.singUpMembers(hMember);
@@ -37,7 +37,7 @@ public class HMemberController {
 			return JsonResult.fail(e.getMessage());
 		}
 	}
-	@RequestMapping(path="checkedNick")
+	@RequestMapping(path="checkedNick")  // 닉네임 중복체크
 	public Object checkedNick(String memberNick) throws Exception {
 	  try {
 	    if(hMemberService.checkedNick(memberNick) == null) {
@@ -50,7 +50,7 @@ public class HMemberController {
       return JsonResult.error(e.getMessage());
 	  }
 	}
-	@RequestMapping(path="checkedEmail")
+	@RequestMapping(path="checkedEmail")  // 이메일 중복체크
   public Object checkedEmail(String memberEmail) throws Exception {
     try {
       if(hMemberService.checkedEmail(memberEmail) == null) {
@@ -63,7 +63,7 @@ public class HMemberController {
       return JsonResult.error(e.getMessage());
     }
   }
-	@RequestMapping(path="login")
+	@RequestMapping(path="login")  // 로그인
 	public Object login(
 			HttpSession session,
 			HttpServletResponse response,
@@ -87,8 +87,8 @@ public class HMemberController {
       response.addCookie(cookie);
       response.addCookie(new Cookie("memberPWD", memberPWD));
 			
-			
 			HMember hMember = hMemberDao.selectOneByEmailAndPassword(paramMap);
+			session.setAttribute("member", hMember);
 			
 			if (hMember == null) {
 				sessionStatus.setComplete(); //세션 무효화
@@ -105,32 +105,33 @@ public class HMemberController {
 			return JsonResult.error(e.getMessage());
 		}
 	}
-//	@RequestMapping(path="userInfoDetail")
-//	public Object userInfoDetail(HttpSession session) throws Exception {
-//		// 이 메서드는 DB에서 작업할 일이 없어서 service 클래스에서 따로 구현할 필요가 없을 것 같다.
-//		try {
-//			HMember hMember = (HMember)session.getAttribute("member");
-//			if(hMember == null) {
-//				System.out.println("해당 회원 정보가 없습니다.");
-//			}
-//			HMember user = hMemberService.getUserInfo(hMember.getMemberNo());
-//			System.out.println(user);
-//			return JsonResult.success(user);
-//		} catch (Exception e) {
-//			return JsonResult.fail(e.getMessage());
-//		}
-//	}
-//	
-//
-//	@RequestMapping(path="changeMemberInfo")
-//	public Object changeMemberInfo(HMember hMember) throws Exception {
-//	  try {
-//	    hMemberService.changeInfromation(hMember);
-//	    return JsonResult.success();
-//	  } catch (Exception e) {
-//	    return JsonResult.fail(e.getMessage());
-//	  }
-//	}
+	@RequestMapping(path="userInfoDetail")  // 멤버정보
+	public Object userInfoDetail(HttpSession session) throws Exception {
+		// 이 메서드는 DB에서 작업할 일이 없어서 service 클래스에서 따로 구현할 필요가 없을 것 같다.
+		try {
+			HMember hMember = (HMember)session.getAttribute("member");
+			if(hMember == null) {
+				System.out.println("해당 회원 정보가 없습니다.");
+			}
+			HMember user = hMemberService.getUserInfo(hMember.getMemberEmail());
+			System.out.println(user);
+			return JsonResult.success(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return JsonResult.fail(e.getMessage());
+		}
+	}
+	
+
+	@RequestMapping(path="changeMemberInfo")  // 회원정보 변경
+	public Object changeMemberInfo(HMember hMember) throws Exception {
+	  try {
+	    hMemberService.changeInfromation(hMember);
+	    return JsonResult.success();
+	  } catch (Exception e) {
+	    return JsonResult.fail(e.getMessage());
+	  }
+	}
 
 
 }

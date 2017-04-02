@@ -90,6 +90,6 @@
     from members mbs
     left join rank rk on rk.rank_no = mbs.rank_no
     left join trainers tns on mbs.member_no = tns.member_no
-    where mbs.member_name = #{trainerName}
+    where tns.trainer_no = #{trainerNo}
   </select>
 </mapper>
