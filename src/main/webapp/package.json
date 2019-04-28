@@ -18,7 +18,7 @@
     "blueimp-file-upload": "^9.12.6",
     "body-parser": "^1.15.2",
     "handlebars": "^4.0.5",
-    "jquery": "^1.12.4",
+    "jquery": "^3.4.0",
     "jquery-form": "^3.50.0",
     "jquery.cookie": "^1.4.1",
     "mysql": "^2.12.0",
